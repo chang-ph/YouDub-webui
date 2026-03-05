@@ -1,4 +1,4 @@
-name: Build and Push Docker image to GitHub Packages
+name: Build whisperx docker
 
 on:
   workflow_dispatch
@@ -23,10 +23,8 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -f Dockerfile.spleeter -t ghcr.io/${{ github.repository_owner }}/spleeter:latest .
           docker build -f Dockerfile.whisperx -t ghcr.io/${{ github.repository_owner }}/whisperx:latest .
 
       - name: Push Docker image
         run: |
-          docker push ghcr.io/${{ github.repository_owner }}/spleeter:latest
           docker push ghcr.io/${{ github.repository_owner }}/whisperx:latest
