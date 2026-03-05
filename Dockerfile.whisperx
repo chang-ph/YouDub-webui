@@ -1,9 +1,10 @@
-FROM ghcr.io/astral-sh/uv:python3.10-trixie-slim
+FROM ghcr.io/astral-sh/uv:python3.13-trixie-slim
 
 WORKDIR /app
 
-RUN set -eux && apt -o Acquire::ForceIPv4=true update && DEBIAN_FRONTEND=noninteractive apt -o Acquire::ForceIPv4=true install -y --no-install-recommends \
-    && apt-get update && apt-get install -y git ffmpeg && apt clean -y && rm -rf /var/lib/apt/lists/* \
-    && uv tool install git+https://github.com/m-bain/whisperX.git && uv cache prune
+RUN set -eux && apt-get -o Acquire::ForceIPv4=true update && DEBIAN_FRONTEND=noninteractive apt-get -o Acquire::ForceIPv4=true install -y --no-install-recommends \
+    && apt-get update && apt-get install -y git ffmpeg \
+    && git clone https://github.com/chang-ph/whisperX.git /app && uv sync && uv cache prune \
+    && apt-get remove -y git && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
-ENTRYPOINT ["whisperx"]
+ENTRYPOINT ["/app/.venv/bin/whisperx"]
