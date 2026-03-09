@@ -7,4 +7,6 @@ RUN set -eux && apt-get -o Acquire::ForceIPv4=true update && DEBIAN_FRONTEND=non
     && git clone https://github.com/chang-ph/whisperX.git /app && uv sync && uv cache prune \
     && apt-get remove -y git && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
+RUN /app/.venv/bin/whisperx test_data
+
 ENTRYPOINT ["/app/.venv/bin/whisperx"]
